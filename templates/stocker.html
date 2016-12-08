@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:content" content="沒時間看股票，只能隨便拿指標來買股票了, 自豪的採用 grs BestFourPoint 作為指標, 本站資料僅供參考, 賠了一屁股請不要找我">
+  <meta property="og:title" content="L君的台灣50觀測器">
+  <meta property="og:site_name" content="L君的台灣50觀測器">
+  <meta property="og:url" content="https://stock.louie.lu">
+  <meta property="og:image" content="https://i.imgur.com/5G0Sg6f.jpg">
+
+  <title>L君的台灣50觀測器</title>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-83736349-2', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+
+<body>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Stock ID</th>
+        <th>Best Four Point says...</th>
+    </tr>
+    {% for key, value in stock.items() %}
+    <tr>
+        <td>{{ name[key] }}</td>
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+<div style='padding-top: 50px'>
+沒時間看股票，只能隨便拿指標來買股票了, 自豪的採用 <a href='https://github.com/toomore/grs'>grs</a> BestFourPoint 作為指標.<br>
+本站資料僅供參考, 賠了一屁股請不要找我, 賺了一屁股歡迎請我喝咖啡.
+</div>
+</body>
+
+</html>
