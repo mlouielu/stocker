@@ -45,7 +45,7 @@ def stocker():
         elif bfp and bfp[0] is False:
             buy_or_sell = "Sell it."
 
-        st[stock] = buy_or_sell
+        st[stock] = {'pivot': buy_or_sell, 'price': s.price[-5:]}
 
     return render_template('stocker.html', stock=st, name=stock_name)
 

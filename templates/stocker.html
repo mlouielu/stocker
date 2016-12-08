@@ -30,17 +30,27 @@
         <th>Name</th>
         <th>Stock ID</th>
         <th>Best Four Point says...</th>
+        <th>Price -5</th>
+        <th>-4</th>
+        <th>-3</th>
+        <th>-2</th>
+        <th>-1</th>
     </tr>
     {% for key, value in stock.items() %}
     <tr>
         <td>{{ name[key] }}</td>
         <td>{{ key }}</td>
-        <td>{{ value }}</td>
+        <td>{{ value['pivot'] }}</td>
+        {% for p in value['price'] %}
+        <td>{{ p }}</td>
+        {% endfor %}
     </tr>
     {% endfor %}
 
 </table>
 <div style='padding-top: 50px'>
+
+
 沒時間看股票，只能隨便拿指標來買股票了, 自豪的採用 <a href='https://github.com/toomore/grs'>grs</a> BestFourPoint 作為指標.<br>
 本站資料僅供參考, 賠了一屁股請不要找我, 賺了一屁股歡迎請我喝咖啡.
 </div>
