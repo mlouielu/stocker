@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template
+import datetime
+from flask import Flask, render_template, jsonify
 from grs import Stock, BestFourPoint
 
 app = Flask(__name__)
@@ -47,8 +48,27 @@ def stocker():
 
         st[stock] = {'pivot': buy_or_sell, 'price': s.price[-5:]}
 
-    return render_template('stocker.html', stock=st, name=stock_name)
+    return render_template('stocker.html',
+                           stock=st,
+                           name=stock_name)
+
+
+@app.route('/stocks/prices/<string:stock_id>')
+def get_stock_price(stock_id):
+    s = Stock(stock_id)
+    ret = []
+    today = datetime.datetime.today()
+    stock_closing = 1 if today > today.replace(hour=13, minute=30, second=0) else 0
+    for index, i in enumerate(s.price[-5:]):
+        date = today - datetime.timedelta(days=(4 - index + stock_closing))
+        ret.append(
+            {
+                'date': date.strftime('%Y-%m-%d'),
+                'price': i,
+            }
+        )
+    return jsonify(ret)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
