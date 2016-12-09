@@ -27,7 +27,7 @@
 </head>
 
 <body>
-<button onclick="$('svg').length == 10 && $('svg').toggle()">disable chart</button>
+<button onclick="$('svg').length == {{ stock_id | length }} && $('svg').toggle()">disable chart</button>
 <table id='stock'>
     <tr align="left">
         <th width="4%">Name</th>
@@ -40,19 +40,19 @@
         <th width="4%">T-1</th>
         <th width="50%">chart</th>
     </tr>
-    {% for key, value in stock.items() %}
+    {% for sid in stock_id %}
     <tr>
-        <td>{{ name[key] }}</td>
-        <td>{{ key }}</td>
-        <td>{{ value['pivot'] }}</td>
-        {% for p in value['price'] %}
+        <td>{{ name[sid] }}</td>
+        <td>{{ sid }}</td>
+        <td>{{ stock[sid]['pivot'] }}</td>
+        {% for p in stock[sid]['price'] %}
         <td>{{ p }}</td>
         {% endfor %}
         <td>
-          <div id="{{ key }}">
+          <div id="{{ sid }}">
           </div>
           <script>
-          d3.json('stocks/prices/{{ key }}', function(data) {
+          d3.json('stocks/prices/{{ sid }}', function(data) {
               data = MG.convert.date(data, 'date');
               min = d3.min(data, function(e) { return e['price']; });
               max = d3.max(data, function(e) { return e['price']; });
@@ -72,14 +72,14 @@
                 max += 50;
               }
               MG.data_graphic({
-                  title: "{{ name[key] }} - {{ key }}",
+                  title: "{{ name[sid] }} - {{ sid }}",
                   data: data,
                   width: 400,
                   height: 200,
                   min_y: min,
                   max_y: max,
                   interpolate: d3.curveLinear,
-                  target: document.getElementById('{{ key }}'),
+                  target: document.getElementById('{{ sid }}'),
                   x_accessor: 'date',
                   y_accessor: 'price',
                   xax_count: 5,

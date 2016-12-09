@@ -17,6 +17,7 @@ stock_list = [
     '2308',  # 台達電
     '2454',  # 聯發科
     '2881',  # 富邦金
+    '8299',  # 群聯
 ]
 
 stock_name = {
@@ -30,6 +31,7 @@ stock_name = {
     '2308': u'台達電',
     '2454': u'聯發科',
     '2881': u'富邦金',
+    '8299': u'群聯',
 }
 
 
@@ -49,6 +51,7 @@ def stocker():
         st[stock] = {'pivot': buy_or_sell, 'price': s.price[-5:]}
 
     return render_template('stocker.html',
+                           stock_id=stock_list,
                            stock=st,
                            name=stock_name)
 
@@ -58,7 +61,7 @@ def get_stock_price(stock_id):
     s = Stock(stock_id)
     ret = []
     today = datetime.datetime.today()
-    stock_closing = 1 if today > today.replace(hour=13, minute=30, second=0) else 0
+    stock_closing = 1 if today < today.replace(hour=13, minute=30, second=0) else 0
     for index, i in enumerate(s.price[-5:]):
         date = today - datetime.timedelta(days=(4 - index + stock_closing))
         ret.append(
