@@ -13,13 +13,14 @@ stock_list = [
     '2317',  # 鴻海
     '1301',  # 台塑
     '1326',  # 台化
-    # '2412',  # 中華電
-    # '3008',  # 大立光
-    # '1303',  # 南亞
-    # '2308',  # 台達電
-    # '2454',  # 聯發科
-    # '2881',  # 富邦金
-    # '8299',  # 群聯
+    '2412',  # 中華電
+    '3008',  # 大立光
+    '1303',  # 南亞
+    '2308',  # 台達電
+    '2454',  # 聯發科
+    '2881',  # 富邦金
+    '8299',  # 群聯
+    '6223',
 ]
 
 stock_name = {
@@ -34,25 +35,24 @@ stock_name = {
     '2454': u'聯發科',
     '2881': u'富邦金',
     '8299': u'群聯',
+    '6223': '旺矽'
 }
 
 
 @app.route('/')
 def stocker():
     st = {}
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        future_stock = [executor.submit(Stock, sid) for sid in stock_list]
-        for future in concurrent.futures.as_completed(future_stock):
-            s = future.result()
-            b = BestFourPoint(s)
-            bfp = b.best_four_point()
-            buy_or_sell = "hmmmm, don't touch"
-            if bfp and bfp[0] is True:
-                buy_or_sell = "Buy it: " + bfp[1]
-            elif bfp and bfp[0] is False:
-                buy_or_sell = "Sell it: " + bfp[1]
+    for sid in stock_list:
+        s = Stock(sid)
+        b = BestFourPoint(s)
+        bfp = b.best_four_point()
+        buy_or_sell = "hmmmm, don't touch"
+        if bfp and bfp[0] is True:
+            buy_or_sell = "Buy it: " + bfp[1]
+        elif bfp and bfp[0] is False:
+            buy_or_sell = "Sell it: " + bfp[1]
 
-            st[str(s.sid)] = {'pivot': buy_or_sell, 'price': s.price[-5:]}
+        st[str(s.sid)] = {'pivot': buy_or_sell, 'price': s.price[-5:]}
 
     return render_template('stocker.html',
                            stock_id=stock_list,
